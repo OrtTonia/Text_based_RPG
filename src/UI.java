@@ -1,11 +1,10 @@
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class UI {
 
     // Create a Scanner instance for user input
-    private static final Scanner scanner = new Scanner(System.in);
+
     private static final String equalsLine = "===============================================================================";
     private static final String stars = "*******************************************************************************";
     private static final String logo = """
@@ -96,7 +95,7 @@ public class UI {
     /**
      * Displays the main menu with options to the user
      */
-    public static int getMenuSelection() {
+    public static void printMenue() {
 
         System.out.println("""
                  _____                                       _____\s
@@ -111,16 +110,15 @@ public class UI {
                  ║   ║    [5] Spiel beenden                  ║   ║\s
                  ║___║                                       ║___║\s
                 (_____)─────────────────────────────────────(_____)""");
-        return getSelection(1, 5);
     }
 
 
     /**
      * Prompts the user for a character name and returns it
      */
-    public static String getCharacterName() {
+    public static void printCharacterName() {
         System.out.print("Gib den Namen deines Charakters ein: ");
-        return scanner.nextLine();
+
     }
 
     /**
@@ -128,7 +126,7 @@ public class UI {
      *
      * @return the user's choice
      */
-    public static int getCharacterClass() {
+    public static void printCharacterClass() {
         System.out.println("\nWähle eine Klasse:");
         System.out.println("""
                         ╦╔═┬  ┌─┐┌─┐┌─┐┌─┐┌┐┌
@@ -140,7 +138,6 @@ public class UI {
                  │  │        [3] Späher         │  │\s
                  │__│~~~~~~~~~~~~~~~~~~~~~~~~~~~│__│\s
                 (____)                         (____)""");
-        return getSelection(1, 3);
     }
 
     /**
@@ -148,7 +145,7 @@ public class UI {
      *
      * @return 0 for Save as a new characte;  1 for Update character in DB
      */
-    public static int getSaveOption() {
+    public static void printSaveOption() {
         System.out.println();
         System.out.println("""
                 ╔════════════════════════════════════╗
@@ -157,10 +154,10 @@ public class UI {
                 ║  [1] aktualisiere Charakter        ║
                 ║  [2] speicher als neuen Charakter  ║
                 ╚════════════════════════════════════╝""");
-        return getSelection(0, 2);
+
     }
 
-    public static int getArenaSelection() {
+    public static void printArenaOptionen() {
         System.out.println();
         System.out.println("""
                 ╔╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╗
@@ -177,41 +174,7 @@ public class UI {
                 ╟┤  [3] Turnier: kämpfe in einem kleinen Turnier        ├╢
                 ╟┼┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┼╢
                 ╚╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╝""");
-        return getSelection(0, 3);
-    }
 
-    private static int getSelection(int start, int end) {
-        while (true) {
-            System.out.print("Bitte wähle eine Option (" + start + "-" + end + "): ");
-            if (scanner.hasNextInt()) {
-                int selection = scanner.nextInt();
-                scanner.nextLine();
-                if (selection >= start && selection <= end) {
-                    return selection;
-                }
-            } else {
-                scanner.next();  // Ungültige Eingabe löschen
-            }
-            System.out.println("Ungültige Auswahl, bitte versuche es erneut.");
-        }
-    }
-
-    /**
-     * Asks the user to select a character ID from the list and returns it
-     */
-    public static int getCharacterById() {
-        System.out.println("Wähle die ID des Charakters oder 0 um die Auswahl zu verlassen:");
-        int selectedID = -1;
-        while (selectedID < 0) {
-            System.out.print("ID: ");
-            try {
-                selectedID = scanner.nextInt();
-            } catch (Exception e) {
-                scanner.nextLine();  // Consume newline character
-                System.out.println("Ungültige Auswahl, bitte versuche es erneut.");
-            }
-        }
-        return selectedID;
     }
 
 
@@ -257,9 +220,8 @@ public class UI {
         System.out.println(stars);
     }
 
-    public static void arenaTraining(Character character) {
+    public static void arenaTraining(Character character, int countOpponents) {
         Battle battle = new Battle();
-        int countOpponents = 3;
 
         System.out.println("\n" + stars);
         System.out.println("Du hast dich entschlossen an einem trainnings Wettkampf mit " + countOpponents + " Gegnern teilzunehem.");

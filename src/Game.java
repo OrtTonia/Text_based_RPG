@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Game {
+    private static final Scanner scanner = new Scanner(System.in);
     static Character myCharacter = null;
 
     static void play() {
@@ -13,8 +14,10 @@ public class Game {
                     UI.printCharacter(myCharacter);
                 }
 
-                // Show the main menu and get the user's selection
-                switch (UI.getMenuSelection()) {
+                // Show the main menu
+                UI.printMenue();
+                // and get the user's selection
+                switch (getSelection(1, 5)) {
                     case 1:
                         // Create a new character
                         myCharacter = createCharacter();
@@ -23,7 +26,7 @@ public class Game {
                         // Load an existing character
                         if (DBController.showAllCharacters()) {
 
-                            int selectedID = UI.getCharacterById();
+                            int selectedID = getCharacterById();
                             if (selectedID > 0) {
                                 myCharacter = DBController.getCharacter(selectedID);
                             }
@@ -57,8 +60,10 @@ public class Game {
 
     // Creates a new character by asking the user for name and class
     private static Character createCharacter() {
-        String name = UI.getCharacterName();
-        int selectedClass = UI.getCharacterClass();
+        UI.printCharacterName();
+        String name = scanner.nextLine();
+        UI.printCharacterClass();
+        int selectedClass = getSelection(1, 3);
 
         Character newCharacter = switch (selectedClass) {
             case 1 -> new Magier(name);
@@ -83,7 +88,9 @@ public class Game {
         }
         if (myCharacter.getId() != 0) {
             // If the character already has an ID, ask whether to update or save as new
-            int saveOption = UI.getSaveOption();
+            UI.printSaveOption();
+            int saveOption = getSelection(0, 2);
+
             if (saveOption == 1)
                 DBController.updateCharacter(myCharacter);
             else if (saveOption == 2)
@@ -96,15 +103,51 @@ public class Game {
 
     private static void handleArena() {
         while (true) {
-            int selectedFight = UI.getArenaSelection();
+
+            UI.printArenaOptionen();
+            int selectedFight = getSelection(0, 3);
             switch (selectedFight) {
                 case 1 -> UI.arenaDuel(myCharacter);
-                case 2 -> UI.arenaTraining(myCharacter);
+                case 2 -> UI.arenaTraining(myCharacter,3);
                 case 3 -> UI.arenaTournament(myCharacter);
                 case 0 -> {
                     return;
                 }
             }
         }
+    }
+
+    private static int getSelection(int start, int end) {
+        while (true) {
+            System.out.print("Bitte wähle eine Option (" + start + "-" + end + "): ");
+            if (scanner.hasNextInt()) {
+                int selection = scanner.nextInt();
+                scanner.nextLine();
+                if (selection >= start && selection <= end) {
+                    return selection;
+                }
+            } else {
+                scanner.next();  // Ungültige Eingabe löschen
+            }
+            System.out.println("Ungültige Auswahl, bitte versuche es erneut.");
+        }
+    }
+
+    /**
+     * Asks the user to select a character ID from the list and returns it
+     */
+    public static int getCharacterById() {
+        System.out.println("Wähle die ID des Charakters oder 0 um die Auswahl zu verlassen:");
+        int selectedID = -1;
+        while (selectedID < 0) {
+            System.out.print("ID: ");
+            try {
+                selectedID = scanner.nextInt();
+            } catch (Exception e) {
+                scanner.nextLine();  // Consume newline character
+                System.out.println("Ungültige Auswahl, bitte versuche es erneut.");
+            }
+        }
+        return selectedID;
     }
 }
