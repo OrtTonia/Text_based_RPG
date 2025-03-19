@@ -49,9 +49,9 @@ public class Spaeher extends Character {
     @Override
     public void setValues(int xp) {
         super.setCharacterValues(xp);
-        this.maxEndurance = 50 + (xp / 10) * 10;
+        this.maxEndurance = 50 + (xp / 10) * 5;
         this.endurance = this.maxEndurance;
-        this.agility = 10 + (xp / 10) * 5;
+        this.agility = 10 + (xp / 10) * 2;
     }
 
 

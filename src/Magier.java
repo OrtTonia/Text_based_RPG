@@ -49,9 +49,9 @@ public class Magier extends Character {
     @Override
     public void setValues(int xp) {
         super.setCharacterValues(xp);
-        this.maxMana = 50 + (xp / 10) * 10;
+        this.maxMana = 50 + (xp / 10) * 5;
         this.mana = maxMana;
-        this.intelligence = 10 + (xp / 10) * 5;
+        this.intelligence = 10 + (xp / 10) * 2;
     }
 
 

@@ -39,7 +39,7 @@ public class Krieger extends Character {
     @Override
     public void setValues(int xp) {
         super.setCharacterValues(xp);
-        this.strength = 15 + (xp / 10) * 5;
+        this.strength = 15 + (xp / 10) * 2;
         this.armor = strength / 2;
     }
 
