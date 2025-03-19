@@ -1,14 +1,20 @@
 public class Main {
 
     public static void main(String[] args) {
+        // create view
+        GameView gameView = new GameView();
+
+
         // Create the table if not exist for storing characters in the database
-        DBController.createTableCharacter();
+        DBController db = new DBController();
+        db.createTableCharacter();
 
         // Display the game logo
-        UI.printLogo();
+        gameView.printWelcomeMessage();
 
+        Game controller = new Game(gameView, db);
         // Start the game loop
-        Game.play();
+        controller.startGame();
     }
 
 

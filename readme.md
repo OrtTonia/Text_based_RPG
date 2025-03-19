@@ -1,6 +1,6 @@
 # RPG Battle Game  
 
-Dieses Spiel ist ein textbasiertes Rollenspiel, in dem der Spieler einen Charakter erstellt und ihn durch verschiedene Kämpfe verbessert. Der Charakter kann gegen andere Kämpfer antreten, Erfahrungspunkte sammeln und im Level aufsteigen.  
+Ein textbasiertes Rollenspiel, in dem der Spieler einen Charakter erstellt und ihn durch verschiedene Kämpfe verbessert. Der Charakter kann gegen andere zuvällige Kämpfer antreten, Erfahrungspunkte sammeln und im Level aufsteigen.  
 
 Das Spiel kombiniert Entscheidungen des Spielers mit automatisierten, zufallsbasierten Kampfsimulationen.  
 
@@ -8,7 +8,8 @@ Das Spiel kombiniert Entscheidungen des Spielers mit automatisierten, zufallsbas
 
 ## Spielbeschreibung  
 
-Der Spieler kann eine eigene Spielfigur erstellen, in einer SQLite-Datenbank speichern und weiterentwickeln. Zur Auswahl stehen drei verschiedene Klassen: Magier, Krieger oder Späher. Jede Klasse hat ihre eigenen Stärken und Schwächen, die sich auf die Kämpfe auswirken. Die Kämpfe selbst laufen automatisch ab.  
+Der Spieler kann eine eigene Spielfigur erstellen, in einer SQLite-Datenbank speichern und weiterentwickeln. 
+Zur Auswahl stehen drei verschiedene Klassen: Magier, Krieger oder Späher. Jede Klasse hat ihre eigenen Stärken und Schwächen, die sich auf die Kämpfe auswirken. Die Kämpfe selbst laufen automatisch ab.  
 
 ---
 
@@ -18,9 +19,9 @@ Das Spiel besteht aus verschiedenen Phasen, in denen der Spieler aktiv Entscheid
 
 ### Manuelle Entscheidungen  
 
-- Erstellung eines neuen Charakters: Der Spieler wählt einen Namen und eine Klasse.  
-- Auswahl der Kampfart: Der Spieler entscheidet, ob er einem Duell, einem Training oder einem Turnier beitreten möchte.  
-- Speichern und Laden eines Charakters: Der Spieler kann seinen Fortschritt speichern oder eine frühere Spielfigur laden.  
+- Charakter erstellen (Name und Klasse wählen)
+- Kampfart auswählen (Duell, Training oder Turnier)  
+- Charakter speichern und laden
 
 ### Automatische Abläufe  
 
@@ -86,13 +87,12 @@ Die Menge an Erfahrungspunkten hängt von der Stärke des besiegten Gegners ab. 
 
 ## Speicherung und Laden von Charakteren  
 
-Das Spiel ermöglicht es, Charaktere in einer Datenbank zu speichern und später wieder zu laden.  
-
+Das Spiel ermöglicht es, Charaktere in einer Datenbank zu speichern und später wieder zu laden.
 Der Spieler hat folgende Optionen:  
 
-- Einen neuen Charakter speichern.  
-- Einen vorhandenen Charakter aktualisieren.  
-- Einen gespeicherten Charakter laden und weiterspielen.  
+- Einen neuen Charakter speichern 
+- Einen vorhandenen Charakter aktualisieren
+- Einen gespeicherten Charakter laden und damit weiterspielen  
 
 Gespeicherte Charaktere bleiben in der Datenbank erhalten und können jederzeit weiterverwendet werden.  
 

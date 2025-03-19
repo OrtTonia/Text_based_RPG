@@ -25,14 +25,14 @@ public class Battle {
 
             attacker.attack(opponent);
             // Check if opponent is dead
-            if (opponent.getHealth() <= 0) {
+            if (!opponent.isAlive()) {
                 declareWinner(attacker, opponent);
                 return false;
             }
 
             opponent.attack(attacker);
             // Check if attacker is dead
-            if (attacker.getHealth() <= 0) {
+            if (!attacker.isAlive()) {
                 declareWinner(opponent, attacker);
                 return true;
             }
@@ -197,7 +197,6 @@ public class Battle {
         }
         return fighters;
     }
-
 
 
 

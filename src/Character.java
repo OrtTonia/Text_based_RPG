@@ -103,6 +103,10 @@ public abstract class Character {
         }
     }
 
+    public boolean isAlive() {
+        return this.health > 0;
+    }
+
     /**
      * Calculates received damage and reduces health accordingly.
      *

@@ -1,13 +1,13 @@
 
 import java.util.ArrayList;
 
-public class UI {
+public class GameView {
 
     // Create a Scanner instance for user input
 
-    private static final String equalsLine = "===============================================================================";
-    private static final String stars = "*******************************************************************************";
-    private static final String logo = """
+    private final String equalsLine = "===============================================================================";
+    private final String stars = "*******************************************************************************";
+    private final String logo = """
             ──┘ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ └──
             ──┐ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ ┌──
               │ │                                                                                                               │ │ \s
@@ -27,8 +27,8 @@ public class UI {
             ──┘ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ └──
             ──┐ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ ┌──
             """;
-    private static final String reclaimer = "Im folgenden Spiel wird aus Gründen der Einfachheit nicht gegendert. Alle Begriffe sind nicht geschlechtsspezifisch gemeint.";
-    private static final String mage = """
+    private final String reclaimer = "Im folgenden Spiel wird aus Gründen der Einfachheit nicht gegendert. Alle Begriffe sind nicht geschlechtsspezifisch gemeint.";
+    private final String mage = """
                           _,._     \s
               .||,       /_ _\\\\    \s
              \\.`',/      |'L'| |   \s
@@ -46,7 +46,7 @@ public class UI {
                ││       |      \\   \\
                ││       |____)__\\___\\\
             """;
-    private static final String warrior = """
+    private final String warrior = """
             |\\             //
              \\\\           _!_
               \\\\         /___\\
@@ -62,7 +62,7 @@ public class UI {
                       / /   \\'-.___.-'
                     _/ /     \\ \\
                    /___|    /___|""";
-    private static final String scout = """
+    private final String scout = """
                     .    ____
                   .' \\  / \\==\\
                  /    \\ 77 \\ |
@@ -81,7 +81,7 @@ public class UI {
     /**
      * Prints the game logo to the console
      */
-    public static void printLogo() {
+    public void printWelcomeMessage() {
         System.out.println(equalsLine);
         System.out.println("""    
                 \t\t\t\t\t\t╦ ╦╦  ╦  ╦╔═╔═╗╔╦╗╔╦╗╔═╗╔╗╔  ╔╗ ╔═╗╦
@@ -90,12 +90,23 @@ public class UI {
         System.out.println(logo);
         System.out.println(reclaimer);
         System.out.println();
+        System.out.println("""
+                 _____                                       _____\s
+                ( ___ )─────────────────────────────────────( ___ )
+                 ║   ║            ╔╦╗┌─┐┌┐┌┬ ┬┌─┐            ║   ║\s
+                 ║   ║            ║║║├┤ ││││ │├┤             ║   ║\s
+                 ║   ║            ╩ ╩└─┘┘└┘└─┘└─┘            ║   ║\s
+                 ║   ║    [1] Neuen Charakter erstellen      ║   ║\s
+                 ║   ║    [2] Lade gespeicherten Charakter   ║   ║\s
+                 ║   ║    [5] Spiel beenden                  ║   ║\s
+                 ║___║                                       ║___║\s
+                (_____)─────────────────────────────────────(_____)""");
     }
 
     /**
      * Displays the main menu with options to the user
      */
-    public static void printMenue() {
+    public void printMenue() {
 
         System.out.println("""
                  _____                                       _____\s
@@ -110,13 +121,14 @@ public class UI {
                  ║   ║    [5] Spiel beenden                  ║   ║\s
                  ║___║                                       ║___║\s
                 (_____)─────────────────────────────────────(_____)""");
+
     }
 
 
     /**
      * Prompts the user for a character name and returns it
      */
-    public static void printCharacterName() {
+    public void printCharacerName() {
         System.out.print("Gib den Namen deines Charakters ein: ");
 
     }
@@ -126,7 +138,7 @@ public class UI {
      *
      * @return the user's choice
      */
-    public static void printCharacterClass() {
+    public void printCharacterClass() {
         System.out.println("\nWähle eine Klasse:");
         System.out.println("""
                         ╦╔═┬  ┌─┐┌─┐┌─┐┌─┐┌┐┌
@@ -145,7 +157,7 @@ public class UI {
      *
      * @return 0 for Save as a new characte;  1 for Update character in DB
      */
-    public static void printSaveOption() {
+    public void printSaveOption() {
         System.out.println();
         System.out.println("""
                 ╔════════════════════════════════════╗
@@ -157,7 +169,7 @@ public class UI {
 
     }
 
-    public static void printArenaOptionen() {
+    public void printArenaOptionen() {
         System.out.println();
         System.out.println("""
                 ╔╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╗
@@ -174,11 +186,10 @@ public class UI {
                 ╟┤  [3] Turnier: kämpfe in einem kleinen Turnier        ├╢
                 ╟┼┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┼╢
                 ╚╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╝""");
-
     }
 
 
-    public static void printCharacter(Character character) {
+    public void printCharacterStatus(Character character) {
         String spazialeCharacterStats = "";
         if (character instanceof Magier magier) {
             System.out.println(mage);
@@ -210,7 +221,7 @@ public class UI {
      *
      * @param character of the player
      */
-    public static void arenaDuel(Character character) {
+    public void arenaDuel(Character character) {
         Battle battle = new Battle();
         Character opponent = battle.randomCharacter(character.getLevel());
         System.out.println("\n" + stars);
@@ -220,12 +231,13 @@ public class UI {
         System.out.println(stars);
     }
 
-    public static void arenaTraining(Character character, int countOpponents) {
+    public void arenaTraining(Character character, int countOpponents) {
         Battle battle = new Battle();
 
         System.out.println("\n" + stars);
         System.out.println("Du hast dich entschlossen an einem trainnings Wettkampf mit " + countOpponents + " Gegnern teilzunehem.");
         System.out.println("Jeder kämpft zweimal gegen jeden.\n");
+
         Character[] fighters = battle.createRandomFighterArray(character, countOpponents);
         System.out.println("Die Teilnehmer sind:");
         for (Character fighter : fighters) {
@@ -241,7 +253,7 @@ public class UI {
         System.out.println(stars);
     }
 
-    public static void arenaTournament(Character character) {
+    public void arenaTournament(Character character) {
         Battle battle = new Battle();
         int countOpponents = 8;
         System.out.println("\n" + stars);
@@ -259,8 +271,12 @@ public class UI {
         System.out.println("\n" + stars);
     }
 
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
 
-    public static void exitGame() {
+
+    public void printExitGame() {
         System.out.println(equalsLine);
         System.out.println("Spiel wird beendet.");
         System.out.println("Auf Wiedersehen!");

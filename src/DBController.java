@@ -6,10 +6,10 @@ import java.sql.*;
 public class DBController {
 
     // Database URL for SQLite connection
-    private static final String URL = "jdbc:sqlite:characters.db";
+    private final String URL = "jdbc:sqlite:characters.db";
 
     // SQL Queries as constants to avoid duplication
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS character (" +
+    private final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS character (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "name TEXT, " +
             "class TEXT, " +
@@ -23,23 +23,23 @@ public class DBController {
             "agility INTEGER, " +
             "endurance INTEGER)";
 
-    private static final String DROP_TABLE_SQL = "DROP TABLE IF EXISTS character";
+    private final String DROP_TABLE_SQL = "DROP TABLE IF EXISTS character";
 
-    private static final String INSERT_CHARACTER_SQL = "INSERT INTO character(name, class, level, xp, health, mana, intelligence, strength, armor, agility, endurance) " +
+    private final String INSERT_CHARACTER_SQL = "INSERT INTO character(name, class, level, xp, health, mana, intelligence, strength, armor, agility, endurance) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String SELECT_ALL_CHARACTERS_SQL = "SELECT * FROM character";
+    private final String SELECT_ALL_CHARACTERS_SQL = "SELECT * FROM character";
 
-    private static final String SELECT_CHARACTER_BY_ID_SQL = "SELECT * FROM character WHERE id =?";
+    private final String SELECT_CHARACTER_BY_ID_SQL = "SELECT * FROM character WHERE id =?";
 
-    private static final String UPDATE_CHARACTER_SQL = "UPDATE character SET level=?, xp=?, health=?, mana=?, intelligence=?, strength=?, armor=?, agility=?, endurance=? WHERE id=?";
+    private final String UPDATE_CHARACTER_SQL = "UPDATE character SET level=?, xp=?, health=?, mana=?, intelligence=?, strength=?, armor=?, agility=?, endurance=? WHERE id=?";
 
-    private static final String SELECT_LAST_CHARACTERS_SQL = "SELECT * FROM character ORDER BY ID DESC LIMIT 1";
+    private final String SELECT_LAST_CHARACTERS_SQL = "SELECT * FROM character ORDER BY ID DESC LIMIT 1";
 
     /**
      * Creates the "character" table in the database if it doesn't already exist.
      */
-    public static void createTableCharacter() {
+    public void createTableCharacter() {
         try (Connection conn = DriverManager.getConnection(URL);
              Statement stmt = conn.createStatement()) {
             //stmt.executeUpdate(DROP_TABLE_SQL);
@@ -50,12 +50,22 @@ public class DBController {
         }
     }
 
+    public void dropTableCharacter() {
+        try (Connection conn = DriverManager.getConnection(URL);
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(DROP_TABLE_SQL);
+        } catch (SQLException e) {
+            // Log detailed error message
+            System.err.println("Error dropping table: " + e.getMessage());
+        }
+    }
+
     /**
      * Saves a character to the database.
      *
      * @param character The character to be saved (could be Magier, Krieger, or Spaeher).
      */
-    public static void saveNewCharacter(Character character) {
+    public void saveNewCharacter(Character character) {
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(INSERT_CHARACTER_SQL)) {
 
@@ -83,7 +93,7 @@ public class DBController {
      *
      * @param character The character whose ID needs to be updated.
      */
-    private static void updateIdOfCharacter(Character character) {
+    private void updateIdOfCharacter(Character character) {
         try (Connection conn = DriverManager.getConnection(URL);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(SELECT_LAST_CHARACTERS_SQL)) {
@@ -104,7 +114,7 @@ public class DBController {
      *
      * @param character The character whose data needs to be updated.
      */
-    public static void updateCharacter(Character character) {
+    public void updateCharacter(Character character) {
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(UPDATE_CHARACTER_SQL)) {
 
@@ -163,7 +173,7 @@ public class DBController {
      *
      * @return true if characters are found, false otherwise.
      */
-    public static boolean showAllCharacters() {
+    public boolean showAllCharacters() {
         try (Connection conn = DriverManager.getConnection(URL);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(SELECT_ALL_CHARACTERS_SQL)) {
@@ -192,7 +202,7 @@ public class DBController {
      * @param rs The ResultSet containing character data.
      * @throws SQLException If an SQL error occurs.
      */
-    private static void printCharacterDetails(ResultSet rs) throws SQLException {
+    private void printCharacterDetails(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         String characterClass = rs.getString("class");
@@ -230,7 +240,7 @@ public class DBController {
      * @param selectedId The ID of the character to retrieve.
      * @return The character object (Magier, Krieger, or Spaeher), or null if not found.
      */
-    public static Character getCharacter(int selectedId) {
+    public Character getCharacter(int selectedId) {
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(SELECT_CHARACTER_BY_ID_SQL)) {
 
@@ -258,7 +268,7 @@ public class DBController {
      * @return The character object (Magier, Krieger, or Spaeher).
      * @throws SQLException If an SQL error occurs.
      */
-    private static Character createCharacterFromResultSet(ResultSet rs) throws SQLException {
+    private Character createCharacterFromResultSet(ResultSet rs) throws SQLException {
         String name = rs.getString("name");
         String characterClass = rs.getString("class");
         int id = rs.getInt("id");
