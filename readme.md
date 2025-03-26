@@ -1,6 +1,6 @@
-# RPG Battle Game  
+# RPG Battle GameController  
 
-Ein textbasiertes Rollenspiel, in dem der Spieler einen Charakter erstellt und ihn durch verschiedene Kämpfe verbessert. Der Charakter kann gegen andere zuvällige Kämpfer antreten, Erfahrungspunkte sammeln und im Level aufsteigen.  
+Dies ist ein einfaches, textbasiertes RPG-Spiel in Java. Spieler können einen Charakter erstellen, ihren Fortschritt speichern und laden. Der Charakter kann gegen andere zuvällige Kämpfer antreten, Erfahrungspunkte sammeln und im Level aufsteigen.  
 
 Das Spiel kombiniert Entscheidungen des Spielers mit automatisierten, zufallsbasierten Kampfsimulationen.  
 
@@ -35,11 +35,11 @@ Das Spiel besteht aus verschiedenen Phasen, in denen der Spieler aktiv Entscheid
 
 Jeder Charakter gehört zu einer bestimmten Klasse. Jede Klasse hat eigene Attribute, die bestimmen, wie sich der Charakter im Kampf verhält.  
 
-Klasse	Eigenschaften
-- 🧙‍♂️ Magier: Hohe Intelligenz, nutzt Mana für mächtige Angriffe
-- 🛡 Krieger: Starker Nahkämpfer mit hoher Rüstung. Bei geringer Gesundheit wechselt er in den Berserker-Modus und macht mehr Schaden
-- 🏹 Späher: Agil, schnell und gut im Ausweichen. Bei kritischen Treffern macht er besonders viel Schaden
-Jeder Charakter startet mit einem Basiswert für Gesundheit (HP), XP und klassenspezifischen Attributen.
+| Klasse  | Eigenschaften |
+|---------|--------------|
+| 🧙‍♂️ Magier  | Hohe Intelligenz, nutzt Mana für mächtige Angriffe |
+| 🛡 Krieger | Starker Nahkämpfer mit hoher Rüstung. Bei geringer Gesundheit wechselt er in den Berserker-Modus und macht mehr Schaden |
+| 🏹 Späher | Agil, schnell und gut im Ausweichen. Bei kritischen Treffern macht er besonders viel Schaden |
 
 Der Spieler kann seinen Charakter nicht direkt steuern, aber durch die Wahl der Klasse beeinflussen, welche Kampftechniken verwendet werden.  
 
@@ -50,13 +50,12 @@ Der Spieler kann seinen Charakter nicht direkt steuern, aber durch die Wahl der 
 Der Spieler kann aus drei verschiedenen Kampfmodi wählen.  
 
 1. **Duelle**  
-   - 1-gegen-1-Kämpfe gegen einen zufälligen Gegner
-   - Der Kampf wird automatisch ausgetragen.  
+   - 1-gegen-1-Kämpfe gegen einen zufälligen Gegner 
    - Nur der Gewinner erhält Erfahrungspunkte.  
 
 2. **Training**  
    - Der Charakter tritt gegen mehrere Gegner in Übungskämpfen an.  
-   - Jeder Kämpft zweimal gegen in einem Duell gegen jeden
+   - Jeder Kämpft zweimal in einem Duell gegen jeden
    - Alle Kämpfe werden automatisch durchgeführt.  
    - Erfahrungspunkte werden je nach Leistung verteilt.  
    - Gute Möglichkeit, XP zu sammeln
@@ -65,7 +64,7 @@ Der Spieler kann aus drei verschiedenen Kampfmodi wählen.
    - Mehrere Charaktere treten in einem Turnier gegeneinander an. 
    - Verlierer scheiden aus dem Turnier aus
    - Die Turnierstruktur und die Kämpfe laufen automatisch ab.  
-   - Der Gewinner erhält die höchste Erfahrungspunkte-Belohnung.  
+   - Der Gewinner erhält die meisten Erfahrungspunkte.  
 
 Jeder Kampf läuft in Runden ab. Charaktere greifen sich abwechselnd an, bis einer besiegt wird.
 Nach jedem Kampf wird der aktuelle Zustand des Charakters angezeigt, einschließlich der verbleibenden Gesundheit, der gewonnenen Erfahrung und des neuen Levels.  
@@ -103,18 +102,8 @@ Gespeicherte Charaktere bleiben in der Datenbank erhalten und können jederzeit 
 ### Voraussetzungen  
 
 - Java 17 oder höher  
-- SQLite-Treiber für Java (sqlite-jdbc-3.49.1.0) 
+- SQLite-Datenbanktreiber (sqlite-jdbc-3.49.1.0 im Projekt enthalten) 
 
-### Start des Spiels  
-
-1. Den Code herunterladen und kompilieren:  
-   ```bash
-   javac Main.java
-   ```  
-2. Das Spiel starten:  
-   ```bash
-   java Main
-   ```  
 
 Das Spiel startet in einer textbasierten Umgebung, in der der Spieler Menüpunkte auswählt und den Fortschritt seines Charakters verfolgt.  
 
@@ -126,8 +115,8 @@ Das Spiel startet in einer textbasierten Umgebung, in der der Spieler Menüpunkt
 2. Bei der Charaktererstellung gibt der Spieler einen Namen ein und entscheidet sich für eine Klasse.  
 3. Nach der Erstellung gelangt der Spieler in das Hauptmenü und kann eine Kampfart wählen.  
 4. Der Kampf startet automatisch, und der Spieler sieht den Kampfverlauf auf dem Bildschirm.  
-5. Nach dem Kampf werden Erfahrungspunkte berechnet, und der Charakter kann aufsteigen.  
-6. Der Spieler kann das Spiel speichern und später weiterspielen.  
+5. Nach jedem Kampf werden Erfahrungspunkte berechnet, und der Charakter kann aufsteigen.  
+6. Der Spieler kann den Spielstand speichern und später weiterspielen.  
 
 ---
 
@@ -144,8 +133,6 @@ Das Spiel ist für Erweiterungen offen und kann leicht angepasst werden.
 
 ---
 
-## Fazit  
+## Autore
 
-Dieses Rollenspiel kombiniert einfache Menüführung mit automatisierten Kämpfen. Der Spieler trifft Entscheidungen über die Charakterentwicklung, während die Kämpfe selbst automatisch ablaufen.  
-
-Das System ermöglicht eine kontinuierliche Verbesserung des Charakters, Langzeitmotivation durch Erfahrungspunkte und eine taktische Herangehensweise an die Kämpfe.  
+Antonia Ortenburger (GitHub: @OrtTonia)  
