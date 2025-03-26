@@ -1,12 +1,10 @@
+import java.util.List;
 
-import java.util.ArrayList;
-
+/**
+ * The GameView class is responsible for displaying game-related messages, menus, and character information to the console.
+ */
 public class GameView {
-
-    // Create a Scanner instance for user input
-
     private final String equalsLine = "===============================================================================";
-    private final String stars = "*******************************************************************************";
     private final String logo = """
             ──┘ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ └──
             ──┐ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ ┌──
@@ -27,59 +25,9 @@ public class GameView {
             ──┘ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ └──
             ──┐ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ ┌──
             """;
-    private final String reclaimer = "Im folgenden Spiel wird aus Gründen der Einfachheit nicht gegendert. Alle Begriffe sind nicht geschlechtsspezifisch gemeint.";
-    private final String mage = """
-                          _,._     \s
-              .||,       /_ _\\\\    \s
-             \\.`',/      |'L'| |   \s
-             = ,. =      | -,| L   \s
-             / ││ \\    ,-'\\"/,'`.  \s
-               ││     ,'   `,,. `. \s
-               ,│____,' , ,;' \\| | \s
-              (3|\\    _/|/'   _| | \s
-               ││/,-''  | >-'' _,\\\\\s
-               ││'      ==\\ ,-'  ,'\s
-               ││       |  V \\ ,|  \s
-               ││       |    |` |  \s
-               ││       |    \\   \\\s
-               ││       |     |   \\
-               ││       |      \\   \\
-               ││       |____)__\\___\\\
-            """;
-    private final String warrior = """
-            |\\             //
-             \\\\           _!_
-              \\\\         /___\\
-               \\\\        [+++]
-                \\\\    _ _\\^^^/_ _
-                 \\\\/ (    '-'  ( )
-                 /( \\/ | {&}   /\\ \\
-                   \\  / \\     / _> )
-                    "`   >:::;-'`""'-.
-                        /:::/         \\
-                       /  /||   {&}   |
-                      (  / (\\         /
-                      / /   \\'-.___.-'
-                    _/ /     \\ \\
-                   /___|    /___|""";
-    private final String scout = """
-                    .    ____
-                  .' \\  / \\==\\
-                 /    \\ 77 \\ |
-                /_.----\\\\__,-----.
-            <--(\\_|_____<__|_____/
-                \\  ````/|   ``/```
-                 `.   / |    I|
-                   `./  |____I|
-                        !!!!!!!
-                        | | I |
-                        \\ \\ I |
-                        | | I |
-                       _|_|_I_|
-                      /__/____|""";
 
     /**
-     * Prints the game logo to the console
+     * Prints the game logo and welcome message to the console.
      */
     public void printWelcomeMessage() {
         System.out.println(equalsLine);
@@ -88,8 +36,16 @@ public class GameView {
                 \t\t\t\t\t\t║║║║  ║  ╠╩╗║ ║║║║║║║║╣ ║║║  ╠╩╗║╣ ║
                 \t\t\t\t\t\t╚╩╝╩═╝╩═╝╩ ╩╚═╝╩ ╩╩ ╩╚═╝╝╚╝  ╚═╝╚═╝╩""");
         System.out.println(logo);
+        String reclaimer = "Im folgenden Spiel wird aus Gründen der Einfachheit nicht gegendert. Alle Begriffe sind nicht geschlechtsspezifisch gemeint.";
         System.out.println(reclaimer);
         System.out.println();
+
+    }
+
+    /**
+     * Displays the initial start menu options.
+     */
+    public void printStartMenu() {
         System.out.println("""
                  _____                                       _____\s
                 ( ___ )─────────────────────────────────────( ___ )
@@ -104,10 +60,9 @@ public class GameView {
     }
 
     /**
-     * Displays the main menu with options to the user
+     * Displays the main menu options for the user.
      */
-    public void printMenue() {
-
+    public void printMenu() {
         System.out.println("""
                  _____                                       _____\s
                 ( ___ )─────────────────────────────────────( ___ )
@@ -124,40 +79,32 @@ public class GameView {
 
     }
 
-
     /**
-     * Prompts the user for a character name and returns it
+     * Displays the available character classes for selection.
      */
-    public void printCharacerName() {
-        System.out.print("Gib den Namen deines Charakters ein: ");
+    public void printCharacterClassMenu() {
+        List<String> classes = List.of("Magier ", "Krieger", "Späher ");
 
-    }
-
-    /**
-     * Displays the character class options
-     *
-     * @return the user's choice
-     */
-    public void printCharacterClass() {
         System.out.println("\nWähle eine Klasse:");
         System.out.println("""
                         ╦╔═┬  ┌─┐┌─┐┌─┐┌─┐┌┐┌
                  ____   ╠╩╗│  ├─┤└─┐└─┐├┤ │││   ____
                 ( __ )  ╩ ╩┴─┘┴ ┴└─┘└─┘└─┘┘└┘  ( __ )
-                 │  │~~~~~~~~~~~~~~~~~~~~~~~~~~~│  │\s
-                 │  │        [1] Magier         │  │\s
-                 │  │        [2] Krieger        │  │\s
-                 │  │        [3] Späher         │  │\s
-                 │__│~~~~~~~~~~~~~~~~~~~~~~~~~~~│__│\s
+                 │  │~~~~~~~~~~~~~~~~~~~~~~~~~~~│  │""");
+
+        for (int i = 0; i < classes.size(); i++) {
+            System.out.printf(" │  │        [%d] %s        │  │%n", i + 1, classes.get(i));
+        }
+
+        System.out.println("""
+                 │__│~~~~~~~~~~~~~~~~~~~~~~~~~~~│__│
                 (____)                         (____)""");
     }
 
     /**
-     * asks the user whether they want to save the character as a new one or update an existing one
-     *
-     * @return 0 for Save as a new characte;  1 for Update character in DB
+     * Displays options for saving a character (update or new save).
      */
-    public void printSaveOption() {
+    public void printSaveMenu() {
         System.out.println();
         System.out.println("""
                 ╔════════════════════════════════════╗
@@ -169,7 +116,10 @@ public class GameView {
 
     }
 
-    public void printArenaOptionen() {
+    /**
+     * Displays the different battle options available in the arena.
+     */
+    public void printArenaMenu() {
         System.out.println();
         System.out.println("""
                 ╔╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╗
@@ -188,94 +138,113 @@ public class GameView {
                 ╚╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╝""");
     }
 
-
+    /**
+     * Prints the current status of a character, including stats and ASCII image.
+     *
+     * @param character The character whose stats are displayed.
+     */
     public void printCharacterStatus(Character character) {
         String spazialeCharacterStats = "";
         if (character instanceof Magier magier) {
+            String mage = """
+                                  _,._     \s
+                      .||,       /_ _\\\\    \s
+                     \\.`',/      |'L'| |   \s
+                     = ,. =      | -,| L   \s
+                     / ││ \\    ,-'\\"/,'`.  \s
+                       ││     ,'   `,,. `. \s
+                       ,│____,' , ,;' \\| | \s
+                      (3|\\    _/|/'   _| | \s
+                       ││/,-''  | >-'' _,\\\\\s
+                       ││'      ==\\ ,-'  ,'\s
+                       ││       |  V \\ ,|  \s
+                       ││       |    |` |  \s
+                       ││       |    \\   \\\s
+                       ││       |     |   \\
+                       ││       |      \\   \\
+                       ││       |____)__\\___\\\
+                    """;
             System.out.println(mage);
             spazialeCharacterStats = "  Intelligenz: " + magier.getIntelligence() +
                     "\n  Mana: " + magier.getMaxMana();
         }
         if (character instanceof Krieger krieger) {
+            String warrior = """
+                    |\\             //
+                     \\\\           _!_
+                      \\\\         /___\\
+                       \\\\        [+++]
+                        \\\\    _ _\\^^^/_ _
+                         \\\\/ (    '-'  ( )
+                         /( \\/ | {&}   /\\ \\
+                           \\  / \\     / _> )
+                            "`   >:::;-'`""'-.
+                                /:::/         \\
+                               /  /||   {&}   |
+                              (  / (\\         /
+                              / /   \\'-.___.-'
+                            _/ /     \\ \\
+                           /___|    /___|""";
             System.out.println(warrior);
             spazialeCharacterStats = "  Stärke: " + krieger.getStrength() +
                     "\n  Rüstung: " + krieger.getArmor();
         }
         if (character instanceof Spaeher spaeher) {
+            String scout = """
+                            .    ____
+                          .' \\  / \\==\\
+                         /    \\ 77 \\ |
+                        /_.----\\\\__,-----.
+                    <--(\\_|_____<__|_____/
+                        \\  ````/|   ``/```
+                         `.   / |    I|
+                           `./  |____I|
+                                !!!!!!!
+                                | | I |
+                                \\ \\ I |
+                                | | I |
+                               _|_|_I_|
+                              /__/____|""";
             System.out.println(scout);
             spazialeCharacterStats = "  Beweglichkeit: " + spaeher.getAgility() +
                     "\n  Ausdauer: " + spaeher.getMaxEndurance();
         }
-        System.out.println("********  Player  ********");
+        System.out.println("*********  Player  *********");
         System.out.println("  Name: " + character.getName());
         System.out.println("  Klasse: " + character.getClass().getSimpleName());
         System.out.println("  Level: " + character.getLevel() + "\t\t\tXP: " + character.getXp());
         System.out.println("  HP: " + character.getMaxHealth());
         System.out.println(spazialeCharacterStats);
-        System.out.println("*************************");
+        System.out.println("***************************");
+    }
+
+    /**
+     * Prints a line of stars for visual separation.
+     */
+    public void printStars() {
+        String stars = "*******************************************************************************";
+        System.out.println(stars);
+    }
+
+    /**
+     * Displays tournament options to the user.
+     */
+    public void printTournamentMenu() {
+        System.out.println();
+        System.out.println("""
+                ╔═────────────────────────────────────────────═╗
+                │  Tourniere:                                   │
+                │  [0] Auswahl verlassen                       │
+                │  [1] kleines Tournier mit 8 Teilenehmern     │
+                │  [2] mittleres Tournier mit 16 Teilenehmern  │
+                │  [3] großes Tournier mit 32 Teilenehmern     │
+                ╚─────────────────────────────────────────────═╝""");
     }
 
 
     /**
-     * Simulates an arena fight between the player's character and a random opponent
-     *
-     * @param character of the player
+     * Displays an exit message and game closure.
      */
-    public void arenaDuel(Character character) {
-        Battle battle = new Battle();
-        Character opponent = battle.randomCharacter(character.getLevel());
-        System.out.println("\n" + stars);
-        System.out.println("Du trittst gegen " + opponent.getClass().getSimpleName() + " " + opponent.getName() + " in der Arena an!");
-
-        battle.duel(character, opponent);
-        System.out.println(stars);
-    }
-
-    public void arenaTraining(Character character, int countOpponents) {
-        Battle battle = new Battle();
-
-        System.out.println("\n" + stars);
-        System.out.println("Du hast dich entschlossen an einem trainnings Wettkampf mit " + countOpponents + " Gegnern teilzunehem.");
-        System.out.println("Jeder kämpft zweimal gegen jeden.\n");
-
-        Character[] fighters = battle.createRandomFighterArray(character, countOpponents);
-        System.out.println("Die Teilnehmer sind:");
-        for (Character fighter : fighters) {
-            System.out.println(fighter.toSmallString());
-        }
-        int[] result = battle.trainingTournament(fighters);
-
-        System.out.println("\nErgebnis:");
-        for (int i = 0; i < fighters.length; i++) {
-            System.out.println(fighters[i].toSmallString() + "\t" +
-                    result[i] + " Gewinne");
-        }
-        System.out.println(stars);
-    }
-
-    public void arenaTournament(Character character) {
-        Battle battle = new Battle();
-        int countOpponents = 8;
-        System.out.println("\n" + stars);
-        System.out.println("Du nimmst an einem Tournier mit " + countOpponents + " Teilnehmern in der Arena teil \n");
-
-        ArrayList<Character> fighters = battle.tournament(character, countOpponents);
-
-        int characterPosition = fighters.size() - fighters.indexOf(character);
-        System.out.println(character.getClass().getSimpleName() + " " + character.getName() +
-                " beendete das Turnier auf Platz " + characterPosition + ".\n");
-        System.out.println("*** Ergebnisliste des Tourniers: ***");
-        for (int i = 1; i <= fighters.size(); i++) {
-            System.out.println("Platz " + i + ": " + fighters.get(fighters.size() - i).toSmallString());
-        }
-        System.out.println("\n" + stars);
-    }
-
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
-
     public void printExitGame() {
         System.out.println(equalsLine);
         System.out.println("Spiel wird beendet.");

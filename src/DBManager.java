@@ -1,74 +1,76 @@
 import java.sql.*;
 
 /**
- * DBController handles all database operations related to character storage and retrieval.
+ * DBManager handles all database operations related to character storage and retrieval.
+ * It provides methods for creating, updating, retrieving, and deleting characters in the SQLite database.
  */
-public class DBController {
-
-    // Database URL for SQLite connection
-    private final String URL = "jdbc:sqlite:characters.db";
-
-    // SQL Queries as constants to avoid duplication
-    private final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS character (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "name TEXT, " +
-            "class TEXT, " +
-            "level INTEGER, " +
-            "xp INTEGER, " +
-            "health INTEGER, " +
-            "mana INTEGER, " +
-            "intelligence INTEGER, " +
-            "strength INTEGER, " +
-            "armor INTEGER, " +
-            "agility INTEGER, " +
-            "endurance INTEGER)";
-
-    private final String DROP_TABLE_SQL = "DROP TABLE IF EXISTS character";
-
-    private final String INSERT_CHARACTER_SQL = "INSERT INTO character(name, class, level, xp, health, mana, intelligence, strength, armor, agility, endurance) " +
-            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    private final String SELECT_ALL_CHARACTERS_SQL = "SELECT * FROM character";
-
-    private final String SELECT_CHARACTER_BY_ID_SQL = "SELECT * FROM character WHERE id =?";
-
-    private final String UPDATE_CHARACTER_SQL = "UPDATE character SET level=?, xp=?, health=?, mana=?, intelligence=?, strength=?, armor=?, agility=?, endurance=? WHERE id=?";
-
-    private final String SELECT_LAST_CHARACTERS_SQL = "SELECT * FROM character ORDER BY ID DESC LIMIT 1";
+public class DBManager {
+    private static Connection connection;
 
     /**
-     * Creates the "character" table in the database if it doesn't already exist.
+     * Establishes and returns a database connection.
+     * Uses a singleton pattern to ensure only one connection is maintained.
+     *
+     * @return an active database connection
+     * @throws SQLException if an error occurs while establishing the connection
+     */
+    private Connection getConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            // Database URL for SQLite connection
+            String URL = "jdbc:sqlite:characters.db";
+            connection = DriverManager.getConnection(URL);
+        }
+        return connection;
+    }
+
+    /**
+     * Creates the "character" table in the database if it does not already exist.
      */
     public void createTableCharacter() {
-        try (Connection conn = DriverManager.getConnection(URL);
-             Statement stmt = conn.createStatement()) {
-            //stmt.executeUpdate(DROP_TABLE_SQL);
+
+        try (Statement stmt = getConnection().createStatement()) {
+            //dropTableCharacter();
+            // SQL Queries as constants to avoid duplication
+            String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS character (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "name TEXT, " +
+                    "class TEXT, " +
+                    "level INTEGER, " +
+                    "xp INTEGER, " +
+                    "health INTEGER, " +
+                    "mana INTEGER, " +
+                    "intelligence INTEGER, " +
+                    "strength INTEGER, " +
+                    "armor INTEGER, " +
+                    "agility INTEGER, " +
+                    "endurance INTEGER)";
             stmt.execute(CREATE_TABLE_SQL);
         } catch (SQLException e) {
-            // Log detailed error message
             System.err.println("Error creating table: " + e.getMessage());
         }
     }
 
+    /**
+     * Deletes the "character" table from the database.
+     */
     public void dropTableCharacter() {
-        try (Connection conn = DriverManager.getConnection(URL);
-             Statement stmt = conn.createStatement()) {
+        try (Statement stmt = getConnection().createStatement()) {
+            String DROP_TABLE_SQL = "DROP TABLE IF EXISTS character";
             stmt.executeUpdate(DROP_TABLE_SQL);
         } catch (SQLException e) {
-            // Log detailed error message
             System.err.println("Error dropping table: " + e.getMessage());
         }
     }
 
     /**
-     * Saves a character to the database.
+     * Inserts a character into the database.
      *
      * @param character The character to be saved (could be Magier, Krieger, or Spaeher).
      */
     public void saveNewCharacter(Character character) {
-        try (Connection conn = DriverManager.getConnection(URL);
-             PreparedStatement pstmt = conn.prepareStatement(INSERT_CHARACTER_SQL)) {
-
+        String INSERT_CHARACTER_SQL = "INSERT INTO character(name, class, level, xp, health, mana, intelligence, strength, armor, agility, endurance) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = getConnection().prepareStatement(INSERT_CHARACTER_SQL)) {
             // Set character attributes
             pstmt.setString(1, character.getName());
             pstmt.setString(2, character.getClass().getSimpleName());
@@ -82,20 +84,20 @@ public class DBController {
 
             updateIdOfCharacter(character);
 
-            System.out.println("Dein  " + character.getClass().getSimpleName() + " " + character.getName() + " wurde gespeichert.");
+            System.out.println("Dein " + character.getClass().getSimpleName() + " " + character.getName() + " wurde gespeichert.");
         } catch (SQLException e) {
             System.err.println("Error saving character: " + e.getMessage());
         }
     }
 
     /**
-     * Updates the ID of the character after it has been saved.
+     * Retrieves and sets the ID of the last inserted character.
      *
-     * @param character The character whose ID needs to be updated.
+     * @param character the character whose ID needs to be updated
      */
     private void updateIdOfCharacter(Character character) {
-        try (Connection conn = DriverManager.getConnection(URL);
-             Statement stmt = conn.createStatement();
+        String SELECT_LAST_CHARACTERS_SQL = "SELECT * FROM character ORDER BY ID DESC LIMIT 1";
+        try (Statement stmt = getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(SELECT_LAST_CHARACTERS_SQL)) {
 
             //Set ID
@@ -112,11 +114,11 @@ public class DBController {
     /**
      * Updates an existing character's data in the database.
      *
-     * @param character The character whose data needs to be updated.
+     * @param character the character whose data needs to be updated.
      */
     public void updateCharacter(Character character) {
-        try (Connection conn = DriverManager.getConnection(URL);
-             PreparedStatement pstmt = conn.prepareStatement(UPDATE_CHARACTER_SQL)) {
+        String UPDATE_CHARACTER_SQL = "UPDATE character SET level=?, xp=?, health=?, mana=?, intelligence=?, strength=?, armor=?, agility=?, endurance=? WHERE id=?";
+        try (PreparedStatement pstmt = getConnection().prepareStatement(UPDATE_CHARACTER_SQL)) {
 
             // Set the updated character attributes
             pstmt.setInt(10, character.getId());
@@ -137,34 +139,32 @@ public class DBController {
     /**
      * Sets the character's class-specific attributes in the prepared statement.
      *
-     * @param pstmt     The prepared statement to set attributes in.
-     * @param character The character object containing the data.
-     * @param startIdx  The starting index for setting attributes.
-     * @throws SQLException If an SQL error occurs.
+     * @param pstmt     the prepared statement
+     * @param character the character object containing the data
+     * @param startIdx  the starting index for setting attributes
+     * @throws SQLException if a database access error occurs
      */
     private static void setCharacterAttributes(PreparedStatement pstmt, Character character, int startIdx) throws SQLException {
-        if (character instanceof Magier) {
-            pstmt.setInt(startIdx, ((Magier) character).getMaxMana());
-            pstmt.setInt(startIdx + 1, ((Magier) character).getIntelligence());
-            pstmt.setNull(startIdx + 2, Types.INTEGER); // Set null for fields not needed
-            pstmt.setNull(startIdx + 3, Types.INTEGER);
-            pstmt.setNull(startIdx + 4, Types.INTEGER);
-            pstmt.setNull(startIdx + 5, Types.INTEGER);
-        } else if (character instanceof Krieger) {
-            pstmt.setNull(startIdx, Types.INTEGER);
-            pstmt.setNull(startIdx + 1, Types.INTEGER);
-            pstmt.setInt(startIdx + 2, ((Krieger) character).getStrength());
-            pstmt.setInt(startIdx + 3, ((Krieger) character).getArmor());
-            pstmt.setNull(startIdx + 4, Types.INTEGER);
-            pstmt.setNull(startIdx + 5, Types.INTEGER);
-        } else if (character instanceof Spaeher) {
-            pstmt.setNull(startIdx, Types.INTEGER);
-            pstmt.setNull(startIdx + 1, Types.INTEGER);
-            pstmt.setNull(startIdx + 2, Types.INTEGER);
-            pstmt.setNull(startIdx + 3, Types.INTEGER);
-            pstmt.setInt(startIdx + 4, ((Spaeher) character).getAgility());
-            pstmt.setInt(startIdx + 5, ((Spaeher) character).getEndurance());
+        int mana = 0, intelligence = 0, strength = 0, armor = 0, agility = 0, endurance = 0;
+
+        if (character instanceof Magier magier) {
+            mana = magier.getMaxMana();
+            intelligence = magier.getIntelligence();
+        } else if (character instanceof Krieger krieger) {
+            strength = krieger.getStrength();
+            armor = krieger.getArmor();
+        } else if (character instanceof Spaeher spaeher) {
+            agility = spaeher.getAgility();
+            endurance = spaeher.getEndurance();
         }
+
+        pstmt.setInt(startIdx, mana);
+        pstmt.setInt(startIdx + 1, intelligence);
+        pstmt.setInt(startIdx + 2, strength);
+        pstmt.setInt(startIdx + 3, armor);
+        pstmt.setInt(startIdx + 4, agility);
+        pstmt.setInt(startIdx + 5, endurance);
+
     }
 
 
@@ -174,8 +174,8 @@ public class DBController {
      * @return true if characters are found, false otherwise.
      */
     public boolean showAllCharacters() {
-        try (Connection conn = DriverManager.getConnection(URL);
-             Statement stmt = conn.createStatement();
+        String SELECT_ALL_CHARACTERS_SQL = "SELECT * FROM character";
+        try (Statement stmt = getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(SELECT_ALL_CHARACTERS_SQL)) {
 
             // Check if there are any characters in the ResultSet
@@ -199,8 +199,8 @@ public class DBController {
     /**
      * Prints the details of a character from the ResultSet.
      *
-     * @param rs The ResultSet containing character data.
-     * @throws SQLException If an SQL error occurs.
+     * @param rs the ResultSet containing character data.
+     * @throws SQLException if an SQL error occurs.
      */
     private void printCharacterDetails(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -235,14 +235,30 @@ public class DBController {
     }
 
     /**
+     * @return how many characters are saved in the database
+     */
+    public int countCharacters() {
+        String SELECT_COUNT_CHARACTERS_SQL = "SELECT COUNT(*) FROM character";
+        try (Statement stmt = getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(SELECT_COUNT_CHARACTERS_SQL)) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error counting characters: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    /**
      * Retrieves a character by ID from the database.
      *
-     * @param selectedId The ID of the character to retrieve.
-     * @return The character object (Magier, Krieger, or Spaeher), or null if not found.
+     * @param selectedId the ID of the character to retrieve.
+     * @return the character object (Magier, Krieger, or Spaeher), or null if not found.
      */
     public Character getCharacter(int selectedId) {
-        try (Connection conn = DriverManager.getConnection(URL);
-             PreparedStatement stmt = conn.prepareStatement(SELECT_CHARACTER_BY_ID_SQL)) {
+        String SELECT_CHARACTER_BY_ID_SQL = "SELECT * FROM character WHERE id =?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(SELECT_CHARACTER_BY_ID_SQL)) {
 
             stmt.setInt(1, selectedId);
 
@@ -251,7 +267,7 @@ public class DBController {
                     return createCharacterFromResultSet(rs);
                 } else {
                     // No character found
-                    System.out.println("Kein Charakter mit dieser ID gefunden.");
+                    System.out.println("Kein Charakter mit der ID " + selectedId + " gefunden.");
                     return null;
                 }
             }
@@ -264,36 +280,24 @@ public class DBController {
     /**
      * Creates a character object from the ResultSet.
      *
-     * @param rs The ResultSet containing character data.
-     * @return The character object (Magier, Krieger, or Spaeher).
-     * @throws SQLException If an SQL error occurs.
+     * @param rs the ResultSet containing character data.
+     * @return the character object (Magier, Krieger, or Spaeher).
+     * @throws SQLException if an SQL error occurs.
      */
     private Character createCharacterFromResultSet(ResultSet rs) throws SQLException {
+        int id = rs.getInt("id");
         String name = rs.getString("name");
         String characterClass = rs.getString("class");
-        int id = rs.getInt("id");
         int level = rs.getInt("level");
         int xp = rs.getInt("xp");
         int health = rs.getInt("health");
 
-        switch (characterClass) {
-            case "Magier" -> {
-                int mana = rs.getInt("mana");
-                int intelligence = rs.getInt("intelligence");
-                return new Magier(id, name, health, level, xp, intelligence, mana);
-            }
-            case "Krieger" -> {
-                int strength = rs.getInt("strength");
-                int armor = rs.getInt("armor");
-                return new Krieger(id, name, health, level, xp, strength, armor);
-            }
-            case "Spaeher" -> {
-                int agility = rs.getInt("agility");
-                int endurance = rs.getInt("endurance");
-                return new Spaeher(id, name, health, level, xp, agility, endurance);
-            }
-        }
-        return null;
+        return switch (characterClass) {
+            case "Magier" -> new Magier(id, name, health, level, xp, rs.getInt("intelligence"), rs.getInt("mana"));
+            case "Krieger" -> new Krieger(id, name, health, level, xp, rs.getInt("strength"), rs.getInt("armor"));
+            case "Spaeher" -> new Spaeher(id, name, health, level, xp, rs.getInt("agility"), rs.getInt("endurance"));
+            default -> throw new IllegalArgumentException("Unknown character class: " + characterClass);
+        };
     }
 
 }
