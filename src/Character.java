@@ -5,13 +5,14 @@ import java.util.Random;
  * Contains fundamental attributes such as name, level, XP, and health.
  */
 public abstract class Character {
-
     private int id;
-    private String name;
+    private final String name;
     private int level;
     private int xp;
     private int health;
     private int maxHealth;
+
+    private final int XpNeededForLevelUp = 20;
 
     /**
      * Constructor with all parameters
@@ -31,13 +32,6 @@ public abstract class Character {
     public Character(String name, int xp) {
         this.name = name;
         setValues(xp);
-    }
-
-    /**
-     * Constructor with default values
-     */
-    public Character(String name) {
-        this(name, 0);
     }
 
 
@@ -82,8 +76,8 @@ public abstract class Character {
     /**
      * Sets character values based on XP
      */
-    protected void setCharacterValues(int xp) {
-        this.level = xp / 10;
+     void setCharacterValues(int xp) {
+        this.level = xp / XpNeededForLevelUp;
         this.xp = xp;
         this.maxHealth = 100 + level * 10;
         this.health = maxHealth;
@@ -97,7 +91,7 @@ public abstract class Character {
     public void increaseXp(int xp) {
         setXp(this.xp + Math.abs(xp));
         //Level UP
-        if (getXp() / 10 > getLevel()) {
+        if (getXp() / XpNeededForLevelUp > getLevel()) {
             this.setValues(getXp());
             System.out.println(getName() + " hat level " + getLevel() + " erreicht!");
         }
@@ -125,6 +119,13 @@ public abstract class Character {
         int healing = new Random().nextInt((int) (maxHealth * 0.3), (int) (maxHealth * 0.6));
         setHealth(this.health + healing);
         System.out.println(name + " heilt sich um " + healing + " Punkte!");
+    }
+
+    /**
+     * Resets character health
+     */
+    void resetCharacterStats() {
+        health = maxHealth;
     }
 
     /**

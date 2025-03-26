@@ -1,10 +1,11 @@
 import java.util.Random;
 
 /**
- * Magier (Mage) class, representing a spellcaster with mana and intelligence attributes.
- * Can perform magical attacks and uses mana.
+ * The Magier (Mage) class represents a spellcaster with mana and intelligence attributes.
+ * Mages use mana to perform magical attacks and must manage their mana effectively during combat.
  */
 public class Magier extends Character {
+    private static final Random rand = new Random();
     private int mana;
     private int maxMana;
     private int intelligence;
@@ -44,40 +45,43 @@ public class Magier extends Character {
     }
 
     /**
-     * Sets character attributes based on XP.
+     * Sets character attributes based on experience points (XP).
+     * Intelligence and mana increase as the character gains more XP.
      */
     @Override
     public void setValues(int xp) {
         super.setCharacterValues(xp);
-        this.maxMana = 50 + (xp / 10) * 5;
+        this.maxMana = 50 + getLevel() * 5;
         this.mana = maxMana;
-        this.intelligence = 10 + (xp / 10) * 2;
+        this.intelligence = 10 + getLevel() * 2;
     }
 
+    /**
+     * Resets character stats such as health and mana.
+     */
+    @Override
+    void resetCharacterStats() {
+        super.resetCharacterStats();
+        mana = maxMana;
+    }
 
     /**
-     * Mage attack logic. Uses mana to cast spells, with an option to regenerate mana if depleted.
+     * Executes an attack against an opponent.
+     * Mages consume mana to deal magical damage. If mana is low, they regenerate instead of attacking.
+     *
+     * @param opponent The opponent being attacked.
      */
     @Override
     public void attack(Character opponent) {
-        Random rand = new Random();
         if (this.getHealth() < getMaxHealth() * 0.4 && rand.nextBoolean()) {
             this.heal();
         } else if (opponent.dodge()) {
             System.out.println(getName() + " greift an; " + opponent.getName() + " schafft es auszuweichen!");
         } else {
-            int damage;
-            String damageType = "";
-            if (mana < 5) {
-                // even if the character has not enough mana, they can do a bit of damage and regenerate mana
-                System.out.println(getName() + " hat nicht genug Mana für einen magischen Angriff.");
-                damage = rand.nextInt(1, 6);
-                setMana(getMana() + randomIncrease(4)); // Regenerate 0-4 mana
-            } else {
-                damageType = " magischen";
-                damage = this.intelligence * 2 + randomIncrease(intelligence);
-                mana -= 5;
-            }
+            int damage = calculateDamage();
+
+            String damageType = (mana >= 5) ? " magischen" : " schwachen";
+
             opponent.takeDamage(damage);
             System.out.println(getName() + " greift " + opponent.getName() +
                     " an und verursacht " + opponent.takeDamage(damage) + damageType + " Schaden!");
@@ -85,7 +89,28 @@ public class Magier extends Character {
         }
     }
 
+    /**
+     * Calculates the damage dealt by the Mage.
+     * If mana is low, the attack is weak, and some mana is regenerated instead.
+     *
+     * @return the calculated damage value.
+     */
+    private int calculateDamage() {
+        if (mana < 5) {
+            System.out.println(getName() + " hat nicht genug Mana für einen magischen Angriff.");
+            setMana(getMana() + randomIncrease(4)); // Regenerate 0-4 mana
+            return rand.nextInt(1, 6); // Weak attack
+        }
 
+        mana -= 5; // Spend mana for the attack
+        return intelligence * 2 + randomIncrease(intelligence);
+    }
+
+    /**
+     * Returns a formatted string representation of the Mage.
+     *
+     * @return a string containing the character's mana and intelligence values.
+     */
     @Override
     public String toString() {
         return "[" + super.toString() +
