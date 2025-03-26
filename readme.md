@@ -131,8 +131,3 @@ Das Spiel bietet eine solide Grundlage für weitere Erweiterungen. Mögliche Ver
 
 Das Spiel ist für Erweiterungen offen und kann leicht angepasst werden.  
 
----
-
-## Autore
-
-Antonia Ortenburger (GitHub: @OrtTonia)  
