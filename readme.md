@@ -102,7 +102,7 @@ Gespeicherte Charaktere bleiben in der Datenbank erhalten und können jederzeit 
 ### Voraussetzungen  
 
 - Java 17 oder höher  
-- SQLite-Datenbanktreiber (sqlite-jdbc-3.49.1.0 im Projekt enthalten) 
+- SQLite-Datenbanktreiber (sqlite-jdbc-3.49.1.0 unter <code>lib</code> im Projekt enthalten) 
 
 
 Das Spiel startet in einer textbasierten Umgebung, in der der Spieler Menüpunkte auswählt und den Fortschritt seines Charakters verfolgt.  
