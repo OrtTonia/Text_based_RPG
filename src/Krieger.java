@@ -3,6 +3,7 @@ import java.util.Random;
 /**
  * Warrior class representing a strong and heavily armored character.
  * It features a Berserker mode: If health drops below 25%, the warrior deals increased damage but can no longer dodge attacks.
+ * @author ortenburger
  */
 public class Krieger extends Character {
     private static final Random rand = new Random(); // Shared Random instance to optimize performance

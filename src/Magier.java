@@ -3,6 +3,7 @@ import java.util.Random;
 /**
  * The Magier (Mage) class represents a spellcaster with mana and intelligence attributes.
  * Mages use mana to perform magical attacks and must manage their mana effectively during combat.
+ * @author ortenburger
  */
 public class Magier extends Character {
     private static final Random rand = new Random();

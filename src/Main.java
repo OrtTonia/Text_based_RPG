@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+/**
+ * The main class contains the main() methods to start a simple, text-based RPG game
+ * @author ortenburger
+ */
 public class Main {
 
     public static void main(String[] args) {

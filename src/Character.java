@@ -3,6 +3,7 @@ import java.util.Random;
 /**
  * Abstract class representing a character in the game.
  * Contains fundamental attributes such as name, level, XP, and health.
+ * @author ortenburger
  */
 public abstract class Character {
     private int id;

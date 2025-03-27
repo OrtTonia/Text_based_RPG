@@ -3,6 +3,7 @@ import java.util.Random;
 /**
  * The Spaeher (Scout) class represents a fast and agile character type.
  * It has attributes such as agility and endurance, which influence its combat effectiveness.
+ * @author ortenburger
  */
 public class Spaeher extends Character {
     private static final Random rand = new Random(); // Shared Random instance to optimize performance

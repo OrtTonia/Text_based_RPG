@@ -5,6 +5,7 @@ import java.util.Random;
 /**
  * The Battle class manages combat mechanics
  * It supports various battle modes and ensures fair fights through character stat resets before each duel.
+ * @author ortenburger
  */
 public class Battle {
     private static final Random rand = new Random();

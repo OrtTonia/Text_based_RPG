@@ -3,7 +3,8 @@ import java.sql.*;
 /**
  * DBManager handles all database operations related to character storage and retrieval.
  * It provides methods for creating, updating, retrieving, and deleting characters in the SQLite database.
- */
+ * @author ortenburger
+ *  */
 public class DBManager {
     private static Connection connection;
 

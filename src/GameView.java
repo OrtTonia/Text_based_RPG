@@ -2,6 +2,8 @@ import java.util.List;
 
 /**
  * The GameView class is responsible for displaying game-related messages, menus, and character information to the console.
+ * ASCII art from https://www.asciiart.eu/
+ * @author ortenburger
  */
 public class GameView {
     private final String equalsLine = "===============================================================================";

@@ -3,6 +3,7 @@ import java.util.Scanner;
 /**
  * The GameController class manages the game logic, user inputs, and interactions
  * between the player, database, and battles.
+ * @author ortenburger
  */
 public class GameController {
     private final Scanner scanner;
