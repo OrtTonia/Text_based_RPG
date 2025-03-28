@@ -8,6 +8,7 @@ import java.util.List;
 public class GameView {
     private final String equalsLine = "===============================================================================";
     private final String logo = """
+            
             ─┘ └─────────────────────────────────────────────────────────────────────────────────────────────┘ └──
             ─┐ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ┌──
              │ │                                                                                             │ │\s
@@ -26,6 +27,7 @@ public class GameView {
              │ │                                  ╚═╝  ╚═╝╚═╝      ╚═════╝                                   │ │\s
            ──┘ └─────────────────────────────────────────────────────────────────────────────────────────────┘ └──
            ──┐ ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ┌──
+            
             """;
 
     /**
@@ -34,9 +36,9 @@ public class GameView {
     public void printWelcomeMessage() {
         System.out.println(equalsLine);
         System.out.println("""    
-                \t\t\t\t\t\t╦ ╦╦  ╦  ╦╔═╔═╗╔╦╗╔╦╗╔═╗╔╗╔  ╔╗ ╔═╗╦
-                \t\t\t\t\t\t║║║║  ║  ╠╩╗║ ║║║║║║║║╣ ║║║  ╠╩╗║╣ ║
-                \t\t\t\t\t\t╚╩╝╩═╝╩═╝╩ ╩╚═╝╩ ╩╩ ╩╚═╝╝╚╝  ╚═╝╚═╝╩""");
+                \t\t\t\t\t\t╦ ╦╦╦  ╦  ╦╔═╔═╗╔╦╗╔╦╗╔═╗╔╗╔  ╔╗ ╔═╗╦
+                \t\t\t\t\t\t║║║║║  ║  ╠╩╗║ ║║║║║║║║╣ ║║║  ╠╩╗║╣ ║
+                \t\t\t\t\t\t╚╩╝╩╩═╝╩═╝╩ ╩╚═╝╩ ╩╩ ╩╚═╝╝╚╝  ╚═╝╚═╝╩""");
         System.out.println(logo);
         String reclaimer = "Im folgenden Spiel wird aus Gründen der Einfachheit nicht gegendert. Alle Begriffe sind nicht geschlechtsspezifisch gemeint.";
         System.out.println(reclaimer);
